@@ -1,0 +1,33 @@
+name: CI/CD Encuesta Inteligente
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repositorio
+      uses: actions/checkout@v3
+
+    - name: Configurar Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Instalar dependencias
+      run: npm install
+
+    - name: Ejecutar pruebas unitarias (Jest)
+      run: npm test
+
+    - name: Instalar Checkov
+      run: |
+        pip install checkov
+
+    - name: Ejecutar análisis de seguridad con Checkov
+      run: checkov -d .
