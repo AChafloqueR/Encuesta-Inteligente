@@ -1,0 +1,12 @@
+{
+  "name": "encuesta-inteligente",
+  "version": "1.0.0",
+  "description": "Proyecto de encuesta inteligente con Jest",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
