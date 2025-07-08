@@ -1,0 +1,14 @@
+quiet: true
+download_external_modules: true
+use_enforcement_rules: true
+skip_download: false
+compact: true
+soft_fail: false
+output: cli
+directory: ./terraform
+skip_checks:
+  - CKV_AWS_20
+  - CKV_AWS_144
+  - CKV_AWS_23
+framework:
+  - terraform

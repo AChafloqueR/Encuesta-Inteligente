@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard · SysEncuesta</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <h2>☰ SysEncuesta</h2>
+    <ul>
+      <li><a href="#">📊 Panel</a></li>
+      <li><a href="#">📁 Resultados</a></li>
+      <li><a href="#">➕ Nueva Encuesta</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+    <header>
+      <h1>¡Bienvenida, María González!</h1>
+      <p>Gestiona tus encuestas y analiza resultados desde tu panel de control de SysEncuesta</p>
+    </header>
+
+    <section class="stats">
+      <div class="stat-card"><span>Encuestas Activas</span><strong>12</strong></div>
+      <div class="stat-card"><span>Respuestas Totales</span><strong>2,847</strong></div>
+      <div class="stat-card"><span>Tasa de Respuesta</span><strong>68%</strong></div>
+      <div class="stat-card"><span>Análisis Pendientes</span><strong>3</strong></div>
+    </section>
+
+    <section class="encuestas-activas">
+      <h2>📋 Encuestas Activas</h2>
+
+      <div class="encuesta-box">
+        <div class="titulo">
+          <strong>Satisfacción del Cliente Q4</strong>
+          <span class="estado activo">Activa</span>
+          <span class="etiqueta">Satisfacción</span>
+        </div>
+        <p>245 de 500 respuestas</p>
+        <div class="barra"><div class="progreso" style="width: 49%"></div></div>
+        <div class="acciones">
+          <button>Ver Resultados</button>
+          <button>⚙️</button>
+        </div>
+      </div>
+
+      <div class="encuesta-box">
+        <div class="titulo">
+          <strong>Evaluación de Capacitación</strong>
+          <span class="estado activo">Activa</span>
+          <span class="etiqueta">Educación</span>
+        </div>
+        <p>89 de 150 respuestas</p>
+        <div class="barra"><div class="progreso" style="width: 59%"></div></div>
+        <div class="acciones">
+          <button>Ver Resultados</button>
+          <button>⚙️</button>
+        </div>
+      </div>
+
+      <div class="encuesta-box">
+        <div class="titulo">
+          <strong>Clima Organizacional 2024</strong>
+          <span class="estado cerrar">Próxima a cerrar</span>
+          <span class="etiqueta">RRHH</span>
+        </div>
+        <p>156 de 200 respuestas</p>
+        <div class="barra"><div class="progreso" style="width: 78%"></div></div>
+        <div class="acciones">
+          <button>Ver Resultados</button>
+          <button>⚙️</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="accesos">
+      <div class="acceso-card">➕<strong>Crear Nueva Encuesta</strong><p>Diseña y configura una nueva encuesta desde cero</p></div>
+      <div class="acceso-card">📈<strong>Análisis Avanzado</strong><p>Explora insights detallados con IA integrada</p></div>
+      <div class="acceso-card">👥<strong>Gestionar Audiencias</strong><p>Administra grupos y segmentación de usuarios</p></div>
+    </section>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

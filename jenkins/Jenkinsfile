@@ -1,0 +1,82 @@
+pipeline {
+  agent any
+
+  environment {
+    AWS_DEFAULT_REGION = 'us-east-1'
+  }
+
+  tools {
+    nodejs 'NodeJS_18'
+    python 'Python_3.11'
+  }
+
+  stages {
+    stage('Clonar repositorio') {
+      steps {
+        git 'https://github.com/AChafloqueR/Encuesta-Inteligente.git'
+      }
+    }
+
+    stage('Instalar dependencias') {
+      steps {
+        dir('backend/registrarRespuesta') {
+           sh 'npm install'
+        }
+        dir('backend/generarReporte') {
+           sh 'npm install'
+        }
+        dir('backend/enviarNotificacion') {
+           sh 'npm install'
+        }
+      }
+    }
+
+    stage('Ejecutar pruebas unitarias con Jest') {
+      steps {
+          dir('backend/registrarRespuesta') {
+            sh 'npm test'
+          }
+          dir('backend/generarReporte') {
+            sh 'npm test'
+          }
+          dir('backend/enviarNotificacion') {
+            sh 'npm test'
+          }
+      }
+    }
+
+    stage('Analisis de seguridad con Checkov') {
+      steps {
+        sh '.venv/bin/checkov --config-file checkov/.checkov.yaml'
+      }
+    }
+
+    stage('Construir imagen Docker') {
+      steps {
+        sh 'docker build -t encuesta-inteligente .'
+      }
+    }
+
+    stage('Desplegar con Terraform') {
+      steps {
+        dir('terraform') {
+          sh 'terraform init'
+          sh 'terraform apply'
+          sh '-auto-approve'
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      echo 'Pipeline finalizado.'
+    }
+    success {
+      echo 'Despliegue exitoso.'
+    }
+    failure {
+      echo 'Algo fallo en el pipeline.'
+    }
+  }
+}

@@ -1,0 +1,8 @@
+jenkins:
+  securituRealm:
+    local:
+        allowsSignup: false
+        users:
+           -id: "anabel"
+           -name: "AnabelChafloque"
+           -password: "admin123"

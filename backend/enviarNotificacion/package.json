@@ -1,0 +1,17 @@
+{
+  "name": "enviar-notificacion",
+  "version": "1.0.0",
+  "description": "Lambda para enviar notificaciones vía SES",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Anabel Chafloque",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1500.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  encuesta-app: 
+    build:
+      context: ../encuesta-iac
+      dockerfile: Dockerfile
+    container_name: encuesta-inteligente
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    container_name: jenkins
+  docker-agent:  
+    image: docker:24.0.7-dind
+    container_name: docker-agent
+    privileged: true
+    ports:
+      - 2375
+    networks:
+      - app-network
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    container_name: docker-grafana-1
+    volumes:
+      - ./monitoring/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./monitoring/grafana-dashboard.json:/etc/grafana/provisioning/dashboards/grafana-dashboard.json
+    networks:
+      - app-network
+
+volumes: 
+  jenkins_home:
+
+networks:
+   app-network:

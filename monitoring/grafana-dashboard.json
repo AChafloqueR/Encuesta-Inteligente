@@ -1,0 +1,122 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "type": "dashboard",
+        "name": "Annotations & Alerts",
+        "enabled": true,
+        "hide": true
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1629393342334,
+  "panels": [
+    {
+      "datasource": "CloudWatch",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {},
+      "title": "Invocaciones Lambda",
+      "type": "timeseries",
+      "targets": [
+        {
+          "region": "us-east-1",
+          "namespace": "AWS/Lambda",
+          "metricName": "Invocations",
+          "statistics": ["Sum"],
+          "dimensions": {
+            "FunctionName": "enviarNotificacion"
+          },
+          "period": 300
+        }
+      ]
+    },
+    {
+      "datasource": "CloudWatch",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {},
+      "title": "Errores Lambda",
+      "type": "timeseries",
+      "targets": [
+        {
+          "region": "us-east-1",
+          "namespace": "AWS/Lambda",
+          "metricName": "Errors",
+          "statistics": ["Sum"],
+          "dimensions": {
+            "FunctionName": "enviarNotificacion"
+          },
+          "period": 300
+        }
+      ]
+    },
+    {
+      "datasource": "CloudWatch",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
+      "options": {},
+      "title": "Duración Promedio Lambda",
+      "type": "timeseries",
+      "targets": [
+        {
+          "region": "us-east-1",
+          "namespace": "AWS/Lambda",
+          "metricName": "Duration",
+          "statistics": ["Average"],
+          "dimensions": {
+            "FunctionName": "enviarNotificacion"
+          },
+          "period": 300
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Monitoreo Lambda",
+  "uid": "lambda-monitoring",
+  "version": 1
+}
