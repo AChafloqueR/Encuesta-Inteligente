@@ -3,14 +3,22 @@ pipeline {
 
   environment {
     AWS_DEFAULT_REGION = 'us-east-1'
+    TF_IN_AUTOMATION = 'true'
   }
 
   tools {
     nodejs 'NodeJS_18'
-    python 'Python_3.11'
+    terraform 'Terraform'
   }
 
   stages {
+    stage('Instalar Node.js') {
+      steps {
+          
+          }
+      }
+    }
+
     stage('Clonar repositorio') {
       steps {
         git 'https://github.com/AChafloqueR/Encuesta-Inteligente.git'
@@ -57,26 +65,28 @@ pipeline {
       }
     }
 
-    stage('Desplegar con Terraform') {
+    stage('Desplegar con Terraform en AWS') {
       steps {
         dir('terraform') {
           sh 'terraform init'
+          sh 'terraform plan'
           sh 'terraform apply'
-          sh '-auto-approve'
         }
       }
     }
-  }
+
+    stage ('Confirmar Estado'){
+      steps{
+        echo 'Infraestructura desplegada correctamente'
+      }
+    }
 
   post {
-    always {
-      echo 'Pipeline finalizado.'
+    failure {
+      echo 'Algo fallo en el pipeline.'
     }
     success {
       echo 'Despliegue exitoso.'
-    }
-    failure {
-      echo 'Algo fallo en el pipeline.'
     }
   }
 }

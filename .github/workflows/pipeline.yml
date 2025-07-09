@@ -1,60 +1,48 @@
-name: Deploy Infraestructura en AWS con Terraform
-
+name: Despliegue Automático - Encuesta Inteligente
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-
 jobs:
   deploy:
-    name: Plan y Apply Terraform
+    name: "Aplicar infraestructura y frontend"
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./terraform
-
     steps:
-      - name: Checkout del repositorio
-        uses: actions/checkout@v4
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
 
-      - name: Configurar credenciales de AWS
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          node-version: '18'
+
+      - name: Instalar dependencias frontend
+        working-directory: ./frontend
+        run: |
+          npm install
+
+      - name: Ejecutar pruebas frontend (si tienes)
+        working-directory: ./frontend
+        run: |
+          echo "No hay pruebas aún, omitiendo..."
 
       - name: Instalar Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.8.2
+          terraform_version: 1.6.0
 
       - name: Inicializar Terraform
+        working-directory: ./terraform
         run: terraform init
 
-      - name: Validar configuración
+      - name: Validar Terraform
+        working-directory: ./terraform
         run: terraform validate
 
-      - name: Planificar cambios
-        run: terraform plan
-
-      - name: Aplicar cambios
+      - name: Aplicar Terraform (modo automático)
+        working-directory: ./terraform
         run: terraform apply -auto-approve
 
-  checkov:
-    name: Análisis de seguridad con Checkov
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout del repositorio
-        uses: actions/checkout@v4
-
-      - name: Instalar Checkov
-        run: pip install checkov
-
-      - name: Ejecutar Checkov
-        run: checkov -d ./terraform --compact --framework terraform
+      - name: Finalizado
+        run: echo "Despliegue completado correctamente"

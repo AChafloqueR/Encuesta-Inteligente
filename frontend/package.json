@@ -1,0 +1,14 @@
+{
+  "name": "encuesta-inteligente-frontend",
+  "version": "1.0.0",
+  "description": "Frontend del sistema Encuesta Inteligente",
+  "scripts": {
+    "start": "live-server",
+    "preview": "live-server --port=5500 --host=localhost"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  },
+  "author": "Anabel",
+  "license": "MIT"
+}

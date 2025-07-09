@@ -6,3 +6,15 @@ jenkins:
            -id: "anabel"
            -name: "AnabelChafloque"
            -password: "admin123"
+clouds:
+  - docker:
+      -name: "Docker Cloud"
+      dockerApi:
+        dockerhost:
+          uri: "tcp://docker-agent:2375"
+      templates:
+        - name: "docker-agent"
+          remoteFs: "/home/jenkins/agent"
+          connector:
+            attach:
+              user: root
