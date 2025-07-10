@@ -22,11 +22,6 @@ jobs:
         run: |
           npm install
 
-      - name: Ejecutar pruebas frontend (si tienes)
-        working-directory: ./frontend
-        run: |
-          echo "No hay pruebas aún, omitiendo..."
-
       - name: Instalar Terraform
         uses: hashicorp/setup-terraform@v2
         with:

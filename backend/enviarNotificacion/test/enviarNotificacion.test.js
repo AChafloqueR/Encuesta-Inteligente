@@ -18,7 +18,7 @@ describe('enviarNotificacion Lambda', () => {
       Records: [
         {
           body: JSON.stringify({
-            email: "ejemplo@correo.com",
+            email: "achreyes2003@gmail.com",
             resumen: "Participación exitosa"
           })
         }

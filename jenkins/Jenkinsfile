@@ -1,24 +1,68 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_REGION = 'us-east-1' 
+        TF_IN_AUTOMATION = 'true'
+    }
+
+    tools {
+        nodejs 'NodeJS'      
+        terraform 'Terraform' 
+    }
+
     stages {
-        stage('Clonar') {
+        stage('Clonar Repositorio') {
             steps {
-                echo 'Clonando repositorio...'
-                checkout scm
+                git 'https://github.com/AChafloqueR/Encuesta-Inteligente.git'
             }
         }
 
-        stage('Instalación') {
+        stage('Instalar Dependencias') {
             steps {
-                sh 'npm install'  // Ejecuta npm install para instalar dependencias de Node.js
+                sh 'npm install'
             }
         }
 
-        stage('Pruebas') {
+        stage('Pruebas Unitarias') {
             steps {
-                sh 'npm test'  // Ejecuta las pruebas definidas en el proyecto
+                sh 'npm test'
             }
+        }
+
+        stage('Análisis de Seguridad (Checkov)') {
+            steps {
+                sh 'checkov -d terraform/'
+            }
+        }
+
+        stage('Despliegue Terraform') {
+            steps {
+                dir('terraform') {
+                    sh 'terraform init'
+                    sh 'terraform plan'
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+
+        stage('Desplegar Frontend (S3)') {
+            steps {
+                dir('frontend') {
+                    sh '''
+                    aws s3 sync . s3://tu-bucket --delete
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Todo se desplegó correctamente'
+        }
+        failure {
+            echo 'Falló algo en el pipeline'
         }
     }
 }
