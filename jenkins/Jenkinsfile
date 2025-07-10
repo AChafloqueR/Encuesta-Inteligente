@@ -6,11 +6,6 @@ pipeline {
         TF_IN_AUTOMATION = 'true'
     }
 
-    tools {
-        nodejs 'NodeJS'      
-        terraform 'Terraform' 
-    }
-
     stages {
         stage('Clonar Repositorio') {
             steps {
