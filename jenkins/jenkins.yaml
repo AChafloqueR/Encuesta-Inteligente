@@ -3,8 +3,8 @@ jenkins:
     local:
         allowsSignup: false
         users:
-           -id: "anabel"
-           -name: "AnabelChafloque"
+           -id: "admin"
+           -name: "admin"
            -password: "admin123"
 clouds:
   - docker:

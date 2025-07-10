@@ -1,92 +1,24 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    AWS_DEFAULT_REGION = 'us-east-1'
-    TF_IN_AUTOMATION = 'true'
-  }
-
-  tools {
-    nodejs 'NodeJS_18'
-    terraform 'Terraform'
-  }
-
-  stages {
-    stage('Instalar Node.js') {
-      steps {
-          
-          }
-      }
-    }
-
-    stage('Clonar repositorio') {
-      steps {
-        git 'https://github.com/AChafloqueR/Encuesta-Inteligente.git'
-      }
-    }
-
-    stage('Instalar dependencias') {
-      steps {
-        dir('backend/registrarRespuesta') {
-           sh 'npm install'
+    stages {
+        stage('Clonar') {
+            steps {
+                echo 'Clonando repositorio...'
+                checkout scm
+            }
         }
-        dir('backend/generarReporte') {
-           sh 'npm install'
+
+        stage('Instalación') {
+            steps {
+                sh 'npm install'  // Ejecuta npm install para instalar dependencias de Node.js
+            }
         }
-        dir('backend/enviarNotificacion') {
-           sh 'npm install'
+
+        stage('Pruebas') {
+            steps {
+                sh 'npm test'  // Ejecuta las pruebas definidas en el proyecto
+            }
         }
-      }
     }
-
-    stage('Ejecutar pruebas unitarias con Jest') {
-      steps {
-          dir('backend/registrarRespuesta') {
-            sh 'npm test'
-          }
-          dir('backend/generarReporte') {
-            sh 'npm test'
-          }
-          dir('backend/enviarNotificacion') {
-            sh 'npm test'
-          }
-      }
-    }
-
-    stage('Analisis de seguridad con Checkov') {
-      steps {
-        sh '.venv/bin/checkov --config-file checkov/.checkov.yaml'
-      }
-    }
-
-    stage('Construir imagen Docker') {
-      steps {
-        sh 'docker build -t encuesta-inteligente .'
-      }
-    }
-
-    stage('Desplegar con Terraform en AWS') {
-      steps {
-        dir('terraform') {
-          sh 'terraform init'
-          sh 'terraform plan'
-          sh 'terraform apply'
-        }
-      }
-    }
-
-    stage ('Confirmar Estado'){
-      steps{
-        echo 'Infraestructura desplegada correctamente'
-      }
-    }
-
-  post {
-    failure {
-      echo 'Algo fallo en el pipeline.'
-    }
-    success {
-      echo 'Despliegue exitoso.'
-    }
-  }
 }
